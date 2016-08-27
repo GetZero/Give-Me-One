@@ -1,0 +1,6 @@
+framework module Pods_MyOne {
+  umbrella header "Pods-MyOne-umbrella.h"
+
+  export *
+  module * { export * }
+}
