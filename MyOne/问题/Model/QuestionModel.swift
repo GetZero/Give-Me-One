@@ -22,10 +22,9 @@ class QuestionModel: NSObject {
         super.init()
         setValuesForKeysWithDictionary(dict)
         
-        questionHeight = calculatorContentHeight(strQuestionContent, font: UIFont.systemFontOfSize(14)) + 10
-        answerHeight = calculatorContentHeight(strAnswerContent, font: UIFont.systemFontOfSize(14))
-        
         strAnswerContent = strAnswerContent.stringByReplacingOccurrencesOfString("<br>", withString: "")
+        questionHeight = calculatorContentHeight(strQuestionContent, font: UIFont.systemFontOfSize(14)) + 10
+        answerHeight = calculatorContentHeight(strAnswerContent, font: UIFont.systemFontOfSize(14)) + 20
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {

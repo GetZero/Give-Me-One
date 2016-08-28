@@ -17,13 +17,15 @@ class ArticleModel: NSObject {
     var sAuth: String = "暂无数据"              // 作者简介
     var sWbN: String = "暂无数据"               // 艾特
     var contentHeight: CGFloat = 0
+    var briefHeight: CGFloat = 0
     
     init(dict: [String: AnyObject]) {
         super.init()
         setValuesForKeysWithDictionary(dict)
         
-        self.contentHeight = self.calculatorContentHeight(self.strContent)
         self.strContent = self.strContent.stringByReplacingOccurrencesOfString("<br>", withString: "")
+        self.contentHeight = self.calculatorContentHeight(self.strContent)
+        briefHeight = calculatorBreifHeight(sAuth)
     }
     
     override func setValue(value: AnyObject?, forUndefinedKey key: String) {
@@ -37,6 +39,17 @@ class ArticleModel: NSObject {
         
         let contentRect: CGRect = string.boundingRectWithSize(CGSize(width: ScreenWidth - 20, height: 0), options: Utils.combine(), attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14), NSParagraphStyleAttributeName: para], context: nil)
         let contentHeight: CGFloat = contentRect.height
+        
+        return contentHeight
+    }
+    
+    private func calculatorBreifHeight(content: String) -> CGFloat {
+        let string: NSString = content as NSString
+        let para: NSMutableParagraphStyle = NSMutableParagraphStyle()
+        para.lineBreakMode = .ByWordWrapping
+        
+        let contentRect: CGRect = string.boundingRectWithSize(CGSize(width: ScreenWidth - 20, height: 0), options: Utils.combine(), attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14), NSParagraphStyleAttributeName: para], context: nil)
+        let contentHeight: CGFloat = contentRect.height + 10
         
         return contentHeight
     }

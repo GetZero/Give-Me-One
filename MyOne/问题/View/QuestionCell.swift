@@ -37,8 +37,7 @@ class QuestionCell: UICollectionViewCell {
         
         questionContentHeight.constant = model.questionHeight
         answerContentHeight.constant = model.answerHeight
-        containHeight.constant = model.questionHeight + model.answerHeight + ScreenHeightWithoutNavBar * 0.5
-//        answerContentLabel.text = answerContentLabel.text!.stringByReplacingOccurrencesOfString("<br>", withString: "")
+        containHeight.constant = model.questionHeight + model.answerHeight + ScreenHeightWithoutNavAndTab * 0.5
     }
     
     private func calculatorContentHeight(content: String, label: UILabel, constant: NSLayoutConstraint) -> CGFloat {

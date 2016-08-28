@@ -12,6 +12,8 @@ class ArticleViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     var articleModels: ArticleDataManager = ArticleDataManager()
     var day: Int = 0
+    var start: Double = 0
+    var end: Double = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +21,7 @@ class ArticleViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         initWithUserInterface()
         addObservers()
+        
         startNetwork()
     }
     
@@ -42,11 +45,13 @@ class ArticleViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if object!.isKindOfClass(ArticleDataManager) && keyPath! == articleModels.resultKeyPath() {
-            if change!["new"]! as! String == "Success" {
-                articleCollectionView.reloadData()
-            } else {
-                print("链接失败，请检查网络")
-            }
+            dispatch_async(dispatch_get_main_queue(), { 
+                if change!["new"]! as! String == "Success" {
+                    self.articleCollectionView.reloadData()
+                } else {
+                    print("链接失败，请检查网络")
+                }
+            })
         }
     }
     
@@ -56,8 +61,7 @@ class ArticleViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ArticleCell", forIndexPath: indexPath) as! ArticleCell
-        
+        let cell: ArticleViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("ArticleViewCell", forIndexPath: indexPath) as! ArticleViewCell
         let model: ArticleModel = articleModels.articleModels[indexPath.item]
         
         cell.setModel(model)
@@ -73,7 +77,7 @@ class ArticleViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     private lazy var articleFlowLayout: UICollectionViewFlowLayout = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: ScreenWidth, height: ScreenHeightWithoutNavBar)
+        layout.itemSize = CGSize(width: ScreenWidth, height: ScreenHeightWithoutNavAndTab)
         layout.minimumLineSpacing = 0
         layout.scrollDirection = .Horizontal
         
@@ -84,7 +88,7 @@ class ArticleViewController: UIViewController, UICollectionViewDelegate, UIColle
         let view: UICollectionView = UICollectionView(frame: ScreenRectWithoutNavBar, collectionViewLayout: self.articleFlowLayout)
         view.backgroundColor = UIColor.whiteColor()
         view.showsHorizontalScrollIndicator = false
-        view.registerNib(UINib(nibName: "ArticleCell", bundle: nil), forCellWithReuseIdentifier: "ArticleCell")
+        view.registerNib(UINib(nibName: "ArticleViewCell", bundle: nil), forCellWithReuseIdentifier: "ArticleViewCell")
         view.pagingEnabled = true
         view.bounces = false
         view.delegate = self

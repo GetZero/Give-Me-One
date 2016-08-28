@@ -73,7 +73,7 @@ class SomethingViewController: UIViewController, UICollectionViewDelegate, UICol
     
     private lazy var somethingFlowLayout: UICollectionViewFlowLayout = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: ScreenWidth, height: ScreenHeightWithoutNavBar)
+        layout.itemSize = CGSize(width: ScreenWidth, height: ScreenHeightWithoutNavAndTab)
         layout.minimumLineSpacing = 0
         layout.scrollDirection = .Horizontal
         

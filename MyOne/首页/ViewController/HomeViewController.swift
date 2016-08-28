@@ -22,13 +22,25 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         startNetwork()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        TopWindow.showTopWindow()
+    }
+    
     deinit {
-        homeModels.removeObserver(self, forKeyPath: self.homeModels.resultKeyPath())
+        homeModels.removeObserver(self, forKeyPath: homeModels.resultKeyPath())
     }
     
     func initWithUserInterface() {
-        view.addSubview(self.homeCollectionView)
-        view.addSubview(self.juhuaActivity)
+        view.addSubview(homeCollectionView)
+        view.addSubview(juhuaActivity)
+        view.addSubview(circleView)
+        
+        UIView.animateWithDuration(1, animations: { 
+            self.circleView.transform = CGAffineTransformScale(self.circleView.transform, 0.0001, 0.0001)
+            }) { (_) in
+                self.circleView.removeFromSuperview()
+        }
     }
     
     func addObservers() {
@@ -59,7 +71,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell: HomeCell = collectionView.dequeueReusableCellWithReuseIdentifier("HomeCell", forIndexPath: indexPath) as! HomeCell
         
-        let model: HomeModel = self.homeModels.homeModels[indexPath.item]
+        let model: HomeModel = homeModels.homeModels[indexPath.item]
         
         cell.setModel(model)
         
@@ -67,6 +79,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        cell.alpha = 0
+        
+        UIView.animateWithDuration(1, animations: {
+            cell.alpha = 1
+        })
+        
         if indexPath.item == homeModels.homeModels.count - 1 {
             startNetwork()
         }
@@ -74,7 +92,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     private lazy var homeFlowLayout: UICollectionViewFlowLayout = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: ScreenWidth, height: ScreenHeightWithoutNavBar)
+        layout.itemSize = CGSize(width: ScreenWidth, height: ScreenHeightWithoutNavAndTab)
         layout.minimumLineSpacing = 0
         layout.scrollDirection = .Horizontal
         
@@ -95,6 +113,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }()
     
     private lazy var juhuaActivity: UIActivityIndicatorView = UIActivityIndicatorView().juhuaActivityView(self.view)
+    
+    private lazy var circleView: UIView = UIView().circleView(self.view)
     
 }
 
