@@ -18,10 +18,10 @@ class ViewController: UITabBarController {
     }
     
     func addChildViewControllerToTabBarViewController() {
-        let viewControllers: [UIViewController] = [HomeViewController(), ArticleViewController(), QuestionViewController(), SomethingViewController()]
-        let viewControllerTitles: [String] = ["首页", "文章", "问题", "东西"]
-        let viewControllerImages: [String] = ["tabbar_item_home", "tabbar_item_reading", "tabbar_item_question", "tabbar_item_thing"]
-        let viewControllerSelectedImages: [String] = ["tabbar_item_home_selected", "tabbar_item_reading_selected", "tabbar_item_question_selected", "tabbar_item_thing_selected"]
+        let viewControllers: [UIViewController] = [HomeViewController(), ArticleViewController(), QuestionViewController(), SomethingViewController(), PersonalViewController()]
+        let viewControllerTitles: [String] = ["首页", "文章", "问题", "东西", "个人"]
+        let viewControllerImages: [String] = ["tabbar_item_home", "tabbar_item_reading", "tabbar_item_question", "tabbar_item_thing", "tabbar_item_person"]
+        let viewControllerSelectedImages: [String] = ["tabbar_item_home_selected", "tabbar_item_reading_selected", "tabbar_item_question_selected", "tabbar_item_thing_selected", "tabbar_item_person_selected"]
         var navs: [UINavigationController] = []
         
         for index in 0 ..< viewControllers.count {
