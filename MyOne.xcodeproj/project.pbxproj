@@ -41,6 +41,13 @@
 		8587BF6E1D713A41001C989C /* ArticleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8587BF6D1D713A41001C989C /* ArticleDataManager.swift */; };
 		85FA17AB1D74882200CF5BB1 /* PersonalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA17A91D74882200CF5BB1 /* PersonalCell.swift */; };
 		85FA17AC1D74882200CF5BB1 /* PersonalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85FA17AA1D74882200CF5BB1 /* PersonalCell.xib */; };
+		85FA17AE1D7493EC00CF5BB1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA17AD1D7493EC00CF5BB1 /* SettingViewController.swift */; };
+		85FA17B11D7494CE00CF5BB1 /* NightModeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA17AF1D7494CE00CF5BB1 /* NightModeCell.swift */; };
+		85FA17B21D7494CE00CF5BB1 /* NightModeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85FA17B01D7494CE00CF5BB1 /* NightModeCell.xib */; };
+		85FA17B51D7494F800CF5BB1 /* OtherSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA17B31D7494F800CF5BB1 /* OtherSettingCell.swift */; };
+		85FA17B61D7494F800CF5BB1 /* OtherSettingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85FA17B41D7494F800CF5BB1 /* OtherSettingCell.xib */; };
+		85FA17B91D74952F00CF5BB1 /* LogoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA17B71D74952F00CF5BB1 /* LogoutCell.swift */; };
+		85FA17BA1D74952F00CF5BB1 /* LogoutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85FA17B81D74952F00CF5BB1 /* LogoutCell.xib */; };
 		AE17DB9CE9D89158F7EEFF66 /* Pods_MyOne.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E4A958C5CA50950FE19B82C /* Pods_MyOne.framework */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +93,13 @@
 		8587BF6D1D713A41001C989C /* ArticleDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleDataManager.swift; sourceTree = "<group>"; };
 		85FA17A91D74882200CF5BB1 /* PersonalCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalCell.swift; sourceTree = "<group>"; };
 		85FA17AA1D74882200CF5BB1 /* PersonalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonalCell.xib; sourceTree = "<group>"; };
+		85FA17AD1D7493EC00CF5BB1 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		85FA17AF1D7494CE00CF5BB1 /* NightModeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NightModeCell.swift; sourceTree = "<group>"; };
+		85FA17B01D7494CE00CF5BB1 /* NightModeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NightModeCell.xib; sourceTree = "<group>"; };
+		85FA17B31D7494F800CF5BB1 /* OtherSettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherSettingCell.swift; sourceTree = "<group>"; };
+		85FA17B41D7494F800CF5BB1 /* OtherSettingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OtherSettingCell.xib; sourceTree = "<group>"; };
+		85FA17B71D74952F00CF5BB1 /* LogoutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutCell.swift; sourceTree = "<group>"; };
+		85FA17B81D74952F00CF5BB1 /* LogoutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogoutCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				853F06441D74871D0077FA6F /* PersonalViewController.swift */,
+				85FA17AD1D7493EC00CF5BB1 /* SettingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -335,6 +350,12 @@
 			children = (
 				85FA17A91D74882200CF5BB1 /* PersonalCell.swift */,
 				85FA17AA1D74882200CF5BB1 /* PersonalCell.xib */,
+				85FA17AF1D7494CE00CF5BB1 /* NightModeCell.swift */,
+				85FA17B01D7494CE00CF5BB1 /* NightModeCell.xib */,
+				85FA17B31D7494F800CF5BB1 /* OtherSettingCell.swift */,
+				85FA17B41D7494F800CF5BB1 /* OtherSettingCell.xib */,
+				85FA17B71D74952F00CF5BB1 /* LogoutCell.swift */,
+				85FA17B81D74952F00CF5BB1 /* LogoutCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -404,9 +425,12 @@
 				8587BED11D6D9C1F001C989C /* LaunchScreen.storyboard in Resources */,
 				8587BF621D7139E7001C989C /* QuestionCell.xib in Resources */,
 				8587BF5B1D71394D001C989C /* SomethingCell.xib in Resources */,
+				85FA17B21D7494CE00CF5BB1 /* NightModeCell.xib in Resources */,
 				8587BECC1D6D9C1F001C989C /* Main.storyboard in Resources */,
 				8587BF071D6EEEEB001C989C /* HomeCell.xib in Resources */,
+				85FA17BA1D74952F00CF5BB1 /* LogoutCell.xib in Resources */,
 				85FA17AC1D74882200CF5BB1 /* PersonalCell.xib in Resources */,
+				85FA17B61D7494F800CF5BB1 /* OtherSettingCell.xib in Resources */,
 				853F063B1D72BF790077FA6F /* ArticleViewCell.xib in Resources */,
 				8587BF111D6FEC93001C989C /* Assets.xcassets in Resources */,
 			);
@@ -480,6 +504,7 @@
 				8587BF251D7094BD001C989C /* ViewExtension.swift in Sources */,
 				8587BF5E1D71394D001C989C /* QuestionViewController.swift in Sources */,
 				8587BEFF1D6EDC4B001C989C /* HomeModel.swift in Sources */,
+				85FA17B91D74952F00CF5BB1 /* LogoutCell.swift in Sources */,
 				8587BF5D1D71394D001C989C /* ArticleViewController.swift in Sources */,
 				8587BF061D6EEEEB001C989C /* HomeCell.swift in Sources */,
 				85FA17AB1D74882200CF5BB1 /* PersonalCell.swift in Sources */,
@@ -488,8 +513,11 @@
 				8587BF591D71394D001C989C /* SomethingModel.swift in Sources */,
 				8587BF091D6EF3AF001C989C /* HomeDataManager.swift in Sources */,
 				853F063A1D72BF790077FA6F /* ArticleViewCell.swift in Sources */,
+				85FA17B51D7494F800CF5BB1 /* OtherSettingCell.swift in Sources */,
+				85FA17B11D7494CE00CF5BB1 /* NightModeCell.swift in Sources */,
 				8587BF231D70947D001C989C /* ScreenData.swift in Sources */,
 				8587BF611D7139E7001C989C /* QuestionCell.swift in Sources */,
+				85FA17AE1D7493EC00CF5BB1 /* SettingViewController.swift in Sources */,
 				853F063D1D72EBAD0077FA6F /* TopWindow.swift in Sources */,
 				8587BF221D70947D001C989C /* Networking.swift in Sources */,
 				8587BF301D7120CA001C989C /* Utils.m in Sources */,

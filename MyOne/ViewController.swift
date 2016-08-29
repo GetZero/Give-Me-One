@@ -31,6 +31,7 @@ class ViewController: UITabBarController {
             
             let nav: UINavigationController = UINavigationController(rootViewController: viewController)
             viewController.navigationItem.titleView = UIImageView(image: UIImage(named: "navLogo"))
+            viewController.title = viewControllerTitles[index]
             navs.append(nav)
         }
         

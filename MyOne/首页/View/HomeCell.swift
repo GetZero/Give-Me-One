@@ -46,7 +46,7 @@ class HomeCell: UICollectionViewCell {
     
     private func calculatorContentHeight(content: String) {
         let string: NSString = content as NSString
-        let contentRect: CGRect = string.boundingRectWithSize(CGSize(width: contentLabel.bounds.width, height: 0), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(13.5)], context: nil)
+        let contentRect: CGRect = string.boundingRectWithSize(CGSize(width: contentLabel.bounds.width, height: 0), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(14.5)], context: nil)
         let contentHeight: CGFloat = contentRect.height
         
         UIView.animateWithDuration(0.3) { 

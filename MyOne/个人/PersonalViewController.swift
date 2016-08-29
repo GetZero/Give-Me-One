@@ -25,9 +25,8 @@ class PersonalViewController: UITableViewController {
         tableView.rowHeight = 80
         tableView.registerNib(UINib(nibName: "PersonalCell", bundle: nil), forCellReuseIdentifier: "PersonalCell")
         tableView.separatorStyle = .None
-        
-        let footerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 30, height: 1))
-        tableView.tableFooterView = footerView
+        tableView.bounces = false
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 30, height: 1))
     }
 
     // MARK: - Table view data source
@@ -43,6 +42,12 @@ class PersonalViewController: UITableViewController {
         cell.titleLabel.text = titles[indexPath.row]
 
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == 0 {
+            navigationController?.pushViewController(SettingViewController(), animated: true)
+        }
     }
  
 
