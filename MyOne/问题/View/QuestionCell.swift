@@ -28,7 +28,7 @@ class QuestionCell: UICollectionViewCell {
         
     }
     
-    func setModel(model: QuestionModel) {
+    func setModel(model: QuestionData) {
         timeLabel.text = model.strQuestionMarketTime
         questionTitleLabel.text = model.strQuestionTitle
         questionContentLabel.text = model.strQuestionContent
@@ -38,22 +38,6 @@ class QuestionCell: UICollectionViewCell {
         questionContentHeight.constant = model.questionHeight
         answerContentHeight.constant = model.answerHeight
         containHeight.constant = model.questionHeight + model.answerHeight + questionTitleLabel.bounds.height * 2 + 115
-    }
-    
-    private func calculatorContentHeight(content: String, label: UILabel, constant: NSLayoutConstraint) -> CGFloat {
-        let string: NSString = content as NSString
-        let para: NSMutableParagraphStyle = NSMutableParagraphStyle()
-        para.lineBreakMode = .ByWordWrapping
-        
-        let contentRect: CGRect = string.boundingRectWithSize(CGSize(width: ScreenWidth - 40, height: 0), options: Utils.combine(), attributes: [NSFontAttributeName: label.font, NSParagraphStyleAttributeName: para], context: nil)
-        var contentHeight: CGFloat = contentRect.height
-        if label == questionContentLabel {
-            contentHeight += 10
-        }
-        
-        constant.constant = contentHeight
-        
-        return contentHeight
     }
 
 }

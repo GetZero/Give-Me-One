@@ -1,5 +1,5 @@
 //
-//  ArticleModel.swift
+//  ArticleDataManager.swift
 //  MyOne
 //
 //  Created by 韦曲凌 on 16/8/27.
@@ -10,6 +10,39 @@ import UIKit
 
 class ArticleModel: NSObject {
     
+    var articleModels: [ArticleModel] = []
+    var articleDatas: [ArticleData] = []
+    private var resultType: NetworkFinishType = .Default
+    private dynamic var resultTypeString: String = "Default"
+    var networkError: NSError?
+    
+    func startNetwork(day: Int) {
+        let parameters: [String: AnyObject] = ["strDate": GetTime.getBeforeDay(day), "strRow": "1"]
+        
+        Networking.get(ArticleURLString, parameters: parameters, headers: nil, successAction: { (respondsToSuccessAction) in
+            dispatch_async(dispatch_get_global_queue(0, 0), { 
+                let data: [String: String] = respondsToSuccessAction["contentEntity"] as! [String: String]
+                let model: ArticleData = ArticleData(dict: data)
+                self.articleDatas.append(model)
+                
+                self.resultType = .NetworkSuccess
+                self.resultTypeString = self.resultType.rawValue
+            })
+        }) { (respondsToErrorAction) in
+            debugPrint(respondsToErrorAction)
+            
+            self.resultType = .NetworkFaile
+            self.resultTypeString = self.resultType.rawValue
+        }
+    }
+    
+    func resultKeyPath() -> String {
+        return "resultTypeString"
+    }
+
+}
+
+struct ArticleData {
     var strContMarketTime: String = "暂无数据"  // 时间
     var strContTitle: String = "暂无数据"       // 标题
     var strContAuthor: String = "暂无数据"      // 作者
@@ -19,17 +52,17 @@ class ArticleModel: NSObject {
     var contentHeight: CGFloat = 0
     var briefHeight: CGFloat = 0
     
-    init(dict: [String: AnyObject]) {
-        super.init()
-        setValuesForKeysWithDictionary(dict)
+    init(dict: [String: String]) {
+        strContMarketTime = dict["strContMarketTime"]!
+        strContTitle = dict["strContTitle"]!
+        strContAuthor = dict["strContAuthor"]!
+        strContent = dict["strContent"]!
+        sAuth = dict["sAuth"]!
+        sWbN = dict["sWbN"]!
         
         self.strContent = self.strContent.stringByReplacingOccurrencesOfString("<br>", withString: "")
         self.contentHeight = self.calculatorContentHeight(self.strContent)
         briefHeight = calculatorBreifHeight(sAuth)
-    }
-    
-    override func setValue(value: AnyObject?, forUndefinedKey key: String) {
-        
     }
     
     private func calculatorContentHeight(content: String) -> CGFloat {
@@ -53,5 +86,4 @@ class ArticleModel: NSObject {
         
         return contentHeight
     }
-
 }

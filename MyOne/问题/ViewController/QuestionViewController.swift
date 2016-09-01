@@ -10,7 +10,8 @@ import UIKit
 
 class QuestionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var questionModels: QuestionDataManager = QuestionDataManager()
+    // MARK: Life circle and property
+    var questionModels: QuestionModel = QuestionModel()
     var day: Int = 0
     
     override func viewDidLoad() {
@@ -27,72 +28,66 @@ class QuestionViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     func initWithUserInterface() {
-        view.addSubview(articleCollectionView)
+        view.addSubview(questionCollectionView)
         view.addSubview(juhuaActivity)
+        view.addSubview(networkWarningLabel)
     }
     
+    // MARK: Observer and network
     func addObservers() {
         questionModels.addObserver(self, forKeyPath: questionModels.resultKeyPath(), options: .New, context: nil)
     }
     
     func startNetwork() {
+        juhuaActivity.startAnimating()
         questionModels.startNetwork(day)
         day -= 1
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if object!.isKindOfClass(QuestionDataManager) && keyPath! == questionModels.resultKeyPath() {
+        if object!.isKindOfClass(QuestionModel) && keyPath! == questionModels.resultKeyPath() {
             if change!["new"]! as! String == "Success" {
-                articleCollectionView.reloadData()
+                questionCollectionView.reloadData()
+                self.networkWarningLabel.hidden = true
             } else {
-                print("链接失败，请检查网络")
+                let _: UIAlertController = UIAlertController.networkErrorAlert(self)
+                self.networkWarningLabel.hidden = false
+                self.juhuaActivity.stopAnimating()
             }
         }
     }
     
+    // MARK: Delegate and datasource
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        questionModels.questionModels.count == 0 ? self.juhuaActivity.startAnimating() : self.juhuaActivity.stopAnimating()
-        return questionModels.questionModels.count
+        questionModels.questionDatas.count == 0 ? juhuaActivity.startAnimating() : juhuaActivity.stopAnimating()
+        return questionModels.questionDatas.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell: QuestionCell = collectionView.dequeueReusableCellWithReuseIdentifier("QuestionCell", forIndexPath: indexPath) as! QuestionCell
         
-        let model: QuestionModel = questionModels.questionModels[indexPath.item]
-        
-        cell.setModel(model)
+        cell.setModel(questionModels.questionDatas[indexPath.item])
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.item == questionModels.questionModels.count - 1 {
+        if indexPath.item == questionModels.questionDatas.count - 1 {
             startNetwork()
         }
     }
     
-    private lazy var articleFlowLayout: UICollectionViewFlowLayout = {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: ScreenWidth, height: ScreenHeightWithoutNavAndTab)
-        layout.minimumLineSpacing = 0
-        layout.scrollDirection = .Horizontal
-        
-        return layout
-    }()
-    
-    private lazy var articleCollectionView: UICollectionView = {
-        let view: UICollectionView = UICollectionView(frame: ScreenRectWithoutNavBar, collectionViewLayout: self.articleFlowLayout)
-        view.backgroundColor = UIColor.whiteColor()
-        view.showsHorizontalScrollIndicator = false
-        view.registerNib(UINib(nibName: "QuestionCell", bundle: nil), forCellWithReuseIdentifier: "QuestionCell")
-        view.pagingEnabled = true
-        view.bounces = false
+    // MARK: Lazy load
+    private lazy var questionCollectionView: UICollectionView = {
+        let view: UICollectionView = UICollectionView.standardCollectionView("QuestionCell")
         view.delegate = self
         view.dataSource = self
         
         return view
     }()
     
-    private lazy var juhuaActivity: UIActivityIndicatorView = UIActivityIndicatorView().juhuaActivityView(self.view)
+    private lazy var juhuaActivity: UIActivityIndicatorView = UIActivityIndicatorView.juhuaActivityView(self.view)
+    
+    private lazy var networkWarningLabel: UILabel = UILabel.networkErrorWarning(self.view)
     
 }

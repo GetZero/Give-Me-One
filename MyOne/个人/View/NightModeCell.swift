@@ -10,9 +10,13 @@ import UIKit
 
 class NightModeCell: UITableViewCell {
 
+    
+    @IBOutlet weak var nightModeSwitch: UISwitch!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .None
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -20,5 +24,17 @@ class NightModeCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    @IBAction func nightModeSwitchAction(sender: AnyObject) {
+//        sender.setOn(!sender.on, animated: true)
+        let isOn: Bool = sender.on
+        
+        if isOn {
+            dk_manager.nightFalling()
+        } else {
+            UIColor.nightModeCloseColor()
+        }
+    }
+    
     
 }

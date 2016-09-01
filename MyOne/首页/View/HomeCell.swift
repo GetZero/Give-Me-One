@@ -26,7 +26,6 @@ class HomeCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     override func layoutSubviews() {
@@ -34,7 +33,7 @@ class HomeCell: UICollectionViewCell {
         calculatorContentHeight(contentLabel.text!)
     }
     
-    func setModel(model: HomeModel) {
+    func setModel(model: HomeData) {
         let worksAndAuthor: [String] = model.strAuthor.componentsSeparatedByString("&")
         
         volLabel.text = model.strHpTitle

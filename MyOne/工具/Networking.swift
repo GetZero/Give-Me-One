@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import AlamofireImage
+import DKNightVersion
 
 let HomeURLString: String = "http://bea.wufazhuce.com/OneForWeb/one/getHp_N"
 let ArticleURLString: String = "http://bea.wufazhuce.com/OneForWeb/one/getOneContentInfo"

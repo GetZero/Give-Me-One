@@ -27,6 +27,9 @@
                     </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HAI-0Q-4qz">
                         <rect key="frame" x="250" y="8" width="52" height="30"/>
+                        <connections>
+                            <action selector="nightModeSwitchAction:" destination="KGk-i7-Jjw" eventType="valueChanged" id="ncc-Xg-GAr"/>
+                        </connections>
                     </switch>
                 </subviews>
                 <constraints>
@@ -37,6 +40,9 @@
                     <constraint firstAttribute="centerX" secondItem="W30-JX-cI6" secondAttribute="trailing" id="jBS-3G-Mf6"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="nightModeSwitch" destination="HAI-0Q-4qz" id="xKm-YF-ccM"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

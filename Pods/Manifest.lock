@@ -2,18 +2,33 @@ PODS:
   - Alamofire (3.4.1)
   - AlamofireImage (2.4.0):
     - Alamofire (~> 3.3)
+  - DKNightVersion (2.3.1):
+    - DKNightVersion/Core (= 2.3.1)
+    - DKNightVersion/CoreAnimation (= 2.3.1)
+    - DKNightVersion/UIKit (= 2.3.1)
+  - DKNightVersion/Core (2.3.1):
+    - DKNightVersion/Core/DeallocBlockExecutor (= 2.3.1)
+    - DKNightVersion/Core/extobjc (= 2.3.1)
+  - DKNightVersion/Core/DeallocBlockExecutor (2.3.1)
+  - DKNightVersion/Core/extobjc (2.3.1)
+  - DKNightVersion/CoreAnimation (2.3.1):
+    - DKNightVersion/Core
+  - DKNightVersion/UIKit (2.3.1):
+    - DKNightVersion/Core
   - SnapKit (0.21.1)
 
 DEPENDENCIES:
   - Alamofire
   - AlamofireImage
+  - DKNightVersion
   - SnapKit
 
 SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
+  DKNightVersion: a777bb22a9a68837d89ddd724e1fcaf65581dde4
   SnapKit: bbad04cb016c7cead63965f16b00c09318d271ee
 
-PODFILE CHECKSUM: b4ae9f7ab6a0f640a5f85fb4d13b8d4b93d42a19
+PODFILE CHECKSUM: b3e76e836f4195c00f59354f03475a8c22b2140e
 
 COCOAPODS: 1.0.1

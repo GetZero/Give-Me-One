@@ -22,7 +22,7 @@ class ArticleViewCell: UICollectionViewCell {
     @IBOutlet weak var briefHeight: NSLayoutConstraint!
     @IBOutlet weak var containHeight: NSLayoutConstraint!
     
-    private var model: ArticleModel?
+    private var model: ArticleData?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,7 +32,7 @@ class ArticleViewCell: UICollectionViewCell {
         juhua.center = CGPoint(x: ScreenWidth * 0.5, y: ScreenHeightWithoutNavAndTab * 0.5)
     }
     
-    func setModel(model: ArticleModel) {
+    func setModel(model: ArticleData) {
         self.model = model
         performSelector(#selector(loadUserView), withObject: nil, afterDelay: 0.1)
     }
@@ -57,6 +57,6 @@ class ArticleViewCell: UICollectionViewCell {
         }
     }
     
-    private lazy var juhua: UIActivityIndicatorView = UIActivityIndicatorView().juhuaActivityView(self)
+    private lazy var juhua: UIActivityIndicatorView = UIActivityIndicatorView.juhuaActivityView(self)
 
 }

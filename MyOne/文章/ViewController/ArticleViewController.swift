@@ -10,7 +10,8 @@ import UIKit
 
 class ArticleViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var articleModels: ArticleDataManager = ArticleDataManager()
+    // MARK: Life circle and property
+    var articleModels: ArticleModel = ArticleModel()
     var day: Int = 0
     var start: Double = 0
     var end: Double = 0
@@ -32,71 +33,66 @@ class ArticleViewController: UIViewController, UICollectionViewDelegate, UIColle
     func initWithUserInterface() {
         view.addSubview(articleCollectionView)
         view.addSubview(juhuaActivity)
+        view.addSubview(networkWarningLabel)
     }
     
+    // MARK: Observer and network
     func addObservers() {
         articleModels.addObserver(self, forKeyPath: articleModels.resultKeyPath(), options: .New, context: nil)
     }
     
     func startNetwork() {
+        juhuaActivity.startAnimating()
         articleModels.startNetwork(day)
         day -= 1
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if object!.isKindOfClass(ArticleDataManager) && keyPath! == articleModels.resultKeyPath() {
+        if object!.isKindOfClass(ArticleModel) && keyPath! == articleModels.resultKeyPath() {
             dispatch_async(dispatch_get_main_queue(), { 
                 if change!["new"]! as! String == "Success" {
                     self.articleCollectionView.reloadData()
+                    self.networkWarningLabel.hidden = true
                 } else {
-                    print("链接失败，请检查网络")
+                    let _: UIAlertController = UIAlertController.networkErrorAlert(self)
+                    self.networkWarningLabel.hidden = false
+                    self.juhuaActivity.stopAnimating()
                 }
             })
         }
     }
     
+    // MARK: Delegate and datasource
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        articleModels.articleModels.count == 0 ? self.juhuaActivity.startAnimating() : self.juhuaActivity.stopAnimating()
-        return articleModels.articleModels.count
+        articleModels.articleDatas.count == 0 ? juhuaActivity.startAnimating() : juhuaActivity.stopAnimating()
+        return articleModels.articleDatas.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell: ArticleViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("ArticleViewCell", forIndexPath: indexPath) as! ArticleViewCell
-        let model: ArticleModel = articleModels.articleModels[indexPath.item]
         
-        cell.setModel(model)
+        cell.setModel(articleModels.articleDatas[indexPath.item])
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.item == articleModels.articleModels.count - 1 {
+        if indexPath.item == articleModels.articleDatas.count - 1 {
             startNetwork()
         }
     }
     
-    private lazy var articleFlowLayout: UICollectionViewFlowLayout = {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: ScreenWidth, height: ScreenHeightWithoutNavAndTab)
-        layout.minimumLineSpacing = 0
-        layout.scrollDirection = .Horizontal
-        
-        return layout
-    }()
-    
+    // MARK: Lazy load
     private lazy var articleCollectionView: UICollectionView = {
-        let view: UICollectionView = UICollectionView(frame: ScreenRectWithoutNavBar, collectionViewLayout: self.articleFlowLayout)
-        view.backgroundColor = UIColor.whiteColor()
-        view.showsHorizontalScrollIndicator = false
-        view.registerNib(UINib(nibName: "ArticleViewCell", bundle: nil), forCellWithReuseIdentifier: "ArticleViewCell")
-        view.pagingEnabled = true
-        view.bounces = false
+        let view: UICollectionView = UICollectionView.standardCollectionView("ArticleViewCell")
         view.delegate = self
         view.dataSource = self
         
         return view
     }()
     
-    private lazy var juhuaActivity: UIActivityIndicatorView = UIActivityIndicatorView().juhuaActivityView(self.view)
+    private lazy var juhuaActivity: UIActivityIndicatorView = UIActivityIndicatorView.juhuaActivityView(self.view)
+    
+    private lazy var networkWarningLabel: UILabel = UILabel.networkErrorWarning(self.view)
 
 }

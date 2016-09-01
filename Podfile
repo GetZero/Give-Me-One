@@ -9,5 +9,6 @@ target 'MyOne' do
   pod 'Alamofire'
   pod 'AlamofireImage'
   pod 'SnapKit'
+  pod 'DKNightVersion'
 
 end

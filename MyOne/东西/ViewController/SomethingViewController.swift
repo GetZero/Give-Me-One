@@ -10,7 +10,8 @@ import UIKit
 
 class SomethingViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var somethingModels: SomethingDataManager = SomethingDataManager()
+    // MARK: Life circle and property
+    var somethingModel: SomethingModel = SomethingModel()
     var day: Int = 0
 
     override func viewDidLoad() {
@@ -23,76 +24,70 @@ class SomethingViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     deinit {
-        somethingModels.removeObserver(self, forKeyPath: somethingModels.resultKeyPath())
+        somethingModel.removeObserver(self, forKeyPath: somethingModel.resultKeyPath())
     }
     
     func initWithUserInterface() {
         view.addSubview(somethingCollectionView)
         view.addSubview(juhuaActivity)
+        view.addSubview(networkWarningLabel)
     }
     
+    // MARK: Observer and network
     func addObservers() {
-        somethingModels.addObserver(self, forKeyPath: somethingModels.resultKeyPath(), options: .New, context: nil)
+        somethingModel.addObserver(self, forKeyPath: somethingModel.resultKeyPath(), options: .New, context: nil)
     }
     
     func startNetwork() {
-        somethingModels.startNetwork(day)
+        juhuaActivity.startAnimating()
+        somethingModel.startNetwork(day)
         day -= 1
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if object!.isKindOfClass(SomethingDataManager) && keyPath == somethingModels.resultKeyPath() {
+        if object!.isKindOfClass(SomethingModel) && keyPath == somethingModel.resultKeyPath() {
             if change!["new"]! as! String == "Success" {
                 somethingCollectionView.reloadData()
+                networkWarningLabel.hidden = true
             } else {
-                print("链接失败，请检查网络")
+                let _: UIAlertController = UIAlertController.networkErrorAlert(self)
+                networkWarningLabel.hidden = false
+                juhuaActivity.stopAnimating()
             }
         }
     }
     
+    // MARK: Delegate and datasource
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        somethingModels.somethingModels.count == 0 ? self.juhuaActivity.startAnimating() : self.juhuaActivity.stopAnimating()
-        return somethingModels.somethingModels.count
+        somethingModel.somethingDatas.count == 0 ? juhuaActivity.startAnimating() : juhuaActivity.stopAnimating()
+        return somethingModel.somethingDatas.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell: SomethingCell = collectionView.dequeueReusableCellWithReuseIdentifier("SomethingCell", forIndexPath: indexPath) as! SomethingCell
         
-        let model: SomethingModel = somethingModels.somethingModels[indexPath.item]
-        
-        cell.setModel(model)
+        cell.setModel(somethingModel.somethingDatas[indexPath.item])
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.item == somethingModels.somethingModels.count - 1 {
+        if indexPath.item == somethingModel.somethingDatas.count - 1 {
             startNetwork()
         }
     }
     
-    private lazy var somethingFlowLayout: UICollectionViewFlowLayout = {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: ScreenWidth, height: ScreenHeightWithoutNavAndTab)
-        layout.minimumLineSpacing = 0
-        layout.scrollDirection = .Horizontal
-        
-        return layout
-    }()
-    
+    // MARK: Lazy load
     private lazy var somethingCollectionView: UICollectionView = {
-        let view: UICollectionView = UICollectionView(frame: ScreenRectWithoutNavBar, collectionViewLayout: self.somethingFlowLayout)
-        view.backgroundColor = UIColor.whiteColor()
-        view.showsHorizontalScrollIndicator = false
-        view.registerNib(UINib(nibName: "SomethingCell", bundle: nil), forCellWithReuseIdentifier: "SomethingCell")
-        view.pagingEnabled = true
-        view.bounces = false
+        let view: UICollectionView = UICollectionView.standardCollectionView("SomethingCell")
         view.delegate = self
         view.dataSource = self
         
         return view
     }()
     
-    private lazy var juhuaActivity: UIActivityIndicatorView = UIActivityIndicatorView().juhuaActivityView(self.view)
+    private lazy var juhuaActivity: UIActivityIndicatorView = UIActivityIndicatorView.juhuaActivityView(self.view)
+    
+    private lazy var networkWarningLabel: UILabel = UILabel.networkErrorWarning(self.view)
     
 }

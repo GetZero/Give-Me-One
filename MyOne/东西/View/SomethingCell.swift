@@ -24,29 +24,13 @@ class SomethingCell: UICollectionViewCell {
         
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        calculatorContentHeight(contentLabel.text!)
-    }
-    
-    func setModel(model: SomethingModel) {
+    func setModel(model: SomethingData) {
         timeLabel.text = model.strTm
         thingImage.af_setImageWithURL(NSURL(string: model.strBu)!)
         titleLabel.text = model.strTt
         contentLabel.text = model.strTc
-    }
-    
-    private func calculatorContentHeight(content: String) {
-        let string: NSString = content as NSString
-        let contentRect: CGRect = string.boundingRectWithSize(CGSize(width: contentLabel.bounds.width, height: 0), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(13.5)], context: nil)
-        let contentHeight: CGFloat = contentRect.height
-        
-        UIView.animateWithDuration(0.3) {
-            self.contentHeight.constant = contentHeight
-        }
-        
-        layoutIfNeeded()
-        containHeight.constant = CGRectGetMaxY(contentLabel.frame) + 20
+        contentHeight.constant = model.contentHeight
+        containHeight.constant = ScreenWidth + 60 + model.contentHeight
     }
 
 }
