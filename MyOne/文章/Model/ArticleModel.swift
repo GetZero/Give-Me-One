@@ -10,7 +10,6 @@ import UIKit
 
 class ArticleModel: NSObject {
     
-    var articleModels: [ArticleModel] = []
     var articleDatas: [ArticleData] = []
     private var resultType: NetworkFinishType = .Default
     private dynamic var resultTypeString: String = "Default"
@@ -20,20 +19,27 @@ class ArticleModel: NSObject {
         let parameters: [String: AnyObject] = ["strDate": GetTime.getBeforeDay(day), "strRow": "1"]
         
         Networking.get(ArticleURLString, parameters: parameters, headers: nil, successAction: { (respondsToSuccessAction) in
-            dispatch_async(dispatch_get_global_queue(0, 0), { 
-                let data: [String: String] = respondsToSuccessAction["contentEntity"] as! [String: String]
-                let model: ArticleData = ArticleData(dict: data)
-                self.articleDatas.append(model)
-                
-                self.resultType = .NetworkSuccess
-                self.resultTypeString = self.resultType.rawValue
+            dispatch_async(dispatch_get_global_queue(0, 0), {
+                self.dealWithData(respondsToSuccessAction["contentEntity"] as! [String: String])
             })
         }) { (respondsToErrorAction) in
-            debugPrint(respondsToErrorAction)
-            
-            self.resultType = .NetworkFaile
-            self.resultTypeString = self.resultType.rawValue
+            self.dealWithError(respondsToErrorAction)
         }
+    }
+    
+    private func dealWithData(data: [String: String]) {
+        let model: ArticleData = ArticleData(dict: data)
+        articleDatas.append(model)
+        
+        resultType = NetworkFinishType.NetworkSuccess
+        resultTypeString = resultType.rawValue
+    }
+    
+    private func dealWithError(errorInfo: NSError) {
+        debugPrint(errorInfo)
+        
+        resultType = NetworkFinishType.NetworkFaile
+        resultTypeString = resultType.rawValue
     }
     
     func resultKeyPath() -> String {

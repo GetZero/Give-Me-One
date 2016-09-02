@@ -19,20 +19,27 @@ class QuestionModel: NSObject {
         let parameters: [String: AnyObject] = ["strDate": GetTime.getBeforeDay(day), "strRow": "1"]
         
         Networking.get(QuestionURLString, parameters: parameters, headers: nil, successAction: { (respondsToSuccessAction) in
-            dispatch_async(dispatch_get_global_queue(0, 0), { 
-                let data: [String: String] = respondsToSuccessAction["questionAdEntity"] as! [String: String]
-                let model: QuestionData = QuestionData(dict: data)
-                self.questionDatas.append(model)
-                
-                self.resultType = .NetworkSuccess
-                self.resultTypeString = self.resultType.rawValue
+            dispatch_async(dispatch_get_global_queue(0, 0), {
+                self.dealWithData(respondsToSuccessAction["questionAdEntity"] as! [String: String])
             })
             }) { (respondsToErrorAction) in
-                debugPrint(respondsToErrorAction)
-                
-                self.resultType = .NetworkFaile
-                self.resultTypeString = self.resultType.rawValue
+                self.dealWithError(respondsToErrorAction)
         }
+    }
+    
+    private func dealWithData(data: [String: String]) {
+        let model: QuestionData = QuestionData(dict: data)
+        questionDatas.append(model)
+        
+        resultType = NetworkFinishType.NetworkSuccess
+        resultTypeString = resultType.rawValue
+    }
+    
+    private func dealWithError(errorInfo: NSError) {
+        debugPrint(errorInfo)
+        
+        resultType = NetworkFinishType.NetworkFaile
+        resultTypeString = resultType.rawValue
     }
     
     func resultKeyPath() -> String {

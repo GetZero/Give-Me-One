@@ -46,14 +46,16 @@ class QuestionViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if object!.isKindOfClass(QuestionModel) && keyPath! == questionModels.resultKeyPath() {
-            if change!["new"]! as! String == "Success" {
-                questionCollectionView.reloadData()
-                self.networkWarningLabel.hidden = true
-            } else {
-                let _: UIAlertController = UIAlertController.networkErrorAlert(self)
-                self.networkWarningLabel.hidden = false
-                self.juhuaActivity.stopAnimating()
-            }
+            dispatch_async(dispatch_get_main_queue(), { 
+                if change!["new"]! as! String == "Success" {
+                    self.questionCollectionView.reloadData()
+                    self.networkWarningLabel.hidden = true
+                } else {
+                    let _: UIAlertController = UIAlertController.networkErrorAlert(self)
+                    self.networkWarningLabel.hidden = false
+                    self.juhuaActivity.stopAnimating()
+                }
+            })
         }
     }
     

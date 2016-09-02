@@ -25,18 +25,25 @@ class HomeModel: NSObject {
         let parameters: [String: AnyObject] = ["strDate": GetTime.getBeforeDay(day), "strRow": "\(1)"]
         
         Networking.get(HomeURLString, parameters: parameters, headers: nil, successAction: { (respondsToSuccessAction) in
-            let data: [String: String] = respondsToSuccessAction["hpEntity"] as! [String: String]
-            let model: HomeData = HomeData(dict: data)
-            self.homeDatas.append(model)
-            
-            self.resultType = NetworkFinishType.NetworkSuccess
-            self.resultTypeString = self.resultType.rawValue
+            self.dealWithData(respondsToSuccessAction["hpEntity"] as! [String: String])
             }) { (respondsToErrorAction) in
-                debugPrint(respondsToErrorAction)
-                
-                self.resultType = NetworkFinishType.NetworkFaile
-                self.resultTypeString = self.resultType.rawValue
+                self.dealWithError(respondsToErrorAction)
         }
+    }
+    
+    private func dealWithData(data: [String: String]) {
+        let model: HomeData = HomeData(dict: data)
+        homeDatas.append(model)
+        
+        resultType = NetworkFinishType.NetworkSuccess
+        resultTypeString = resultType.rawValue
+    }
+    
+    private func dealWithError(errorInfo: NSError) {
+        debugPrint(errorInfo)
+        
+        resultType = NetworkFinishType.NetworkFaile
+        resultTypeString = resultType.rawValue
     }
     
     func resultKeyPath() -> String {
